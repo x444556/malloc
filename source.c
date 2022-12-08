@@ -66,7 +66,7 @@ void mem_defrag() {
 			entries[i].memchk=1;
 			for(int j=i+1; j<entryCount; j++){
 				if(entries[j].index == entries[i].index+entries[i].size){
-					if(entries[j].free == entries[i].free){
+					if(entries[j].free != 0 && entries[i].free != 0){
 						swap[newEntryCount].size += entries[j].size;
 						entries[j].memchk=1;
 						j = i + 1; // start over
