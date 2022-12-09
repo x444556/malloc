@@ -48,7 +48,7 @@ void* mem_alloc_smallest_fitting(int size){
 	if (entryCount >= MAX_ENTRIES) return 0;
 
 	int entry = -1;
-	for (int i = 0; i < entryCount && entry == -1; i++) {
+	for (int i = 0; i < entryCount; i++) {
 		if (entries[i].free != 0 && entries[i].size >= size) {
 			if(entry == -1) entry = i;
 			else if (entries[i].size < entries[entry].size) entry = i;
