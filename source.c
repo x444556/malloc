@@ -44,6 +44,29 @@ void* mem_alloc(int size) {
 		return entries[entry].index + mem;
 	}
 }
+void* mem_alloc_smallest_fitting(int size){
+	if (entryCount >= MAX_ENTRIES) return 0;
+
+	int entry = -1;
+	for (int i = 0; i < entryCount && entry == -1; i++) {
+		if (entries[i].free != 0 && entries[i].size >= size) {
+			if(entry == -1) entry = i;
+			else if (entries[i].size < entries[entry].size) entry = i;
+		}
+	}
+	if (entry == -1) return 0;
+	else {
+		if (entries[entry].size != size) {
+			entries[entryCount].free = 1;
+			entries[entryCount].size = entries[entry].size - size;
+			entries[entryCount].index = entries[entry].index + size;
+			entryCount++;
+		}
+		entries[entry].free = 0;
+		entries[entry].size = size;
+		return entries[entry].index + mem;
+	}
+}
 void mem_free(void* ptr) {
 	int index = (char*)ptr - mem; // index in mem[]
 
